@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="product">
+      <h2 data-cy="productDetailsHeading"><span jhiTranslate="billingApp.product.detail.title">Product</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ product.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.product.name">Name</span></dt>
+        <dd>
+          <span>{{ product.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.product.description">Description</span></dt>
+        <dd>
+          <span>{{ product.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.product.logo">Logo</span></dt>
+        <dd>
+          <span>{{ product.logo }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.product.isActive">Is Active</span></dt>
+        <dd>
+          <span>{{ product.isActive }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.product.request">Request</span></dt>
+        <dd>
+          <div *ngIf="product.request">
+            <a [routerLink]="['/request', product.request.id, 'view']">{{ product.request.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="billingApp.product.productLicense">Product License</span></dt>
+        <dd>
+          <div *ngIf="product.productLicense">
+            <a [routerLink]="['/product-license', product.productLicense.id, 'view']">{{ product.productLicense.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/product', product.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

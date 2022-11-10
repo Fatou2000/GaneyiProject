@@ -1,0 +1,46 @@
+{
+  "applications": ["Billing"],
+  "changelogDate": "20221109181411",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "product_license",
+  "fields": [
+    {
+      "fieldName": "accessKey",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "ProductLicense",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "productLicense",
+      "relationshipName": "product",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "pricing",
+      "otherEntityRelationshipName": "productLicense",
+      "relationshipName": "pricing",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

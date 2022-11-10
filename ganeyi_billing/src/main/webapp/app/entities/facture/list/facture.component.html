@@ -1,0 +1,177 @@
+<div>
+  <h2 id="page-heading" data-cy="FactureHeading">
+    <span jhiTranslate="billingApp.facture.home.title">Factures</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="billingApp.facture.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-facture"
+        [routerLink]="['/facture/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="billingApp.facture.home.createLabel"> Create a new Facture </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="factures?.length === 0">
+    <span jhiTranslate="billingApp.facture.home.notFound">No Factures found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="factures && factures.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="rabais">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.rabais">Rabais</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tva">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.tva">Tva</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sousTotal">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.sousTotal">Sous Total</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="total">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.total">Total</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="typeFacturation">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.typeFacturation">Type Facturation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.status">Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="reference">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.reference">Reference</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="date">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.date">Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="forfait.id">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.forfait">Forfait</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="client.id">
+            <div class="d-flex">
+              <span jhiTranslate="billingApp.facture.client">Client</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let facture of factures; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/facture', facture.id, 'view']">{{ facture.id }}</a>
+          </td>
+          <td>{{ facture.rabais }}</td>
+          <td>{{ facture.tva }}</td>
+          <td>{{ facture.sousTotal }}</td>
+          <td>{{ facture.total }}</td>
+          <td jhiTranslate="{{ 'billingApp.TypeFacturation.' + facture.typeFacturation }}">{{ facture.typeFacturation }}</td>
+          <td jhiTranslate="{{ 'billingApp.FactureStatus.' + facture.status }}">{{ facture.status }}</td>
+          <td>{{ facture.reference }}</td>
+          <td>{{ facture.date | formatMediumDate }}</td>
+          <td>
+            <div *ngIf="facture.forfait">
+              <a [routerLink]="['/forfait', facture.forfait.id, 'view']">{{ facture.forfait.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="facture.client">
+              <a [routerLink]="['/client', facture.client.id, 'view']">{{ facture.client.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/facture', facture.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/facture', facture.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(facture)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="factures && factures.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

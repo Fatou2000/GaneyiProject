@@ -1,0 +1,72 @@
+{
+  "applications": ["Billing"],
+  "changelogDate": "20221109181611",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "facture",
+  "fields": [
+    {
+      "fieldName": "rabais",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "tva",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sousTotal",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "typeFacturation",
+      "fieldType": "TypeFacturation",
+      "fieldValues": "FACTURATION_PAR_REQUETE,FACTURATION_PAR_PERIODE"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "FactureStatus",
+      "fieldValues": "PAYE,NON_PAYE"
+    },
+    {
+      "fieldName": "reference",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Facture",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "forfait",
+      "otherEntityRelationshipName": "facture",
+      "ownerSide": true,
+      "relationshipName": "forfait",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "payment",
+      "otherEntityRelationshipName": "facture",
+      "ownerSide": false,
+      "relationshipName": "payment",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "facture",
+      "relationshipName": "client",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

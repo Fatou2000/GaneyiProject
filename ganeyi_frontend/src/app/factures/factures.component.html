@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+</style>
+</head>
+<body>
+    <!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;background-color: #339682;color: white; border-radius: 13px; padding: 22px 8px 600px 0;margin: 10px 33px 10px 20px;" id="mySidebar"><br>
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+    <div class="w3-container">
+      <h3 class="w3-padding-64"><b>Ganeyi</b></h3>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white "><i class="fa fa-home"></i> Accueil</a> 
+      <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white"><i class="fa fa-solid fa-grid"></i> Produits</a> 
+      <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white "><i class="fa-thin fa-square-dashed"></i> Console</a> 
+      <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white "><i class="fa fa-bars"></i> Résultats</a> 
+      <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white "><i class="fa fa-light fa-file"></i> Factures</a> 
+    </div>
+  </nav>
+  <div style="float:right; color: rgba(58, 86, 78, 0.07);">
+    <i class="fa fa-light fa-bell"></i>
+  </div>
+
+  <!-- Top menu on small screens -->
+<header class="w3-container w3-top w3-hide-large  w3-xlarge w3-padding" style="background-color: #339682;">
+    <a href="javascript:void(0)" class="w3-button  w3-margin-right" onclick="w3_open()">☰</a>
+    <span>Ganeyi</span>
+  </header>
+  
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+  
+  <!-- !PAGE CONTENT! -->
+  
+ 
+  <div class="w3-main" style="margin-left:340px;margin-right:40px;box-shadow: 0 2.9px 87.8px 0 rgba(58, 86, 78, 0.07);">
+  
+    <!-- Header -->
+    <div class="w3-container" style="margin-top:80px" id="showcase">
+      <h1 class="w3-jumbo"><b>Factures</b></h1>
+      <hr style="width:50px;border:5px solid  #339682;" class="w3-round">
+    </div>
+    <div style="margin-bottom:50px;">
+        <input type="text" placeholder="Filter" style=" float: left;padding: 6px;border-radius:10px;margin-top: 8px;font-size: 17px;">
+        <input type="text" placeholder="Rechercher" style=" float: right;padding: 6px; border-radius: 10px;margin-top: 8px;margin-right: 16px;font-size: 17px;">
+   </div>
+    <table class="w3-table" style="color: #339682;font-size: larger;">
+        <tr>
+            <th>Numéro</th>
+            <th>Date</th>
+            <th>Produits</th>
+            <th>Montant</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <th>
+                
+            </th>
+        </tr>
+
+    </table>
+    </div>
+    </body>
+

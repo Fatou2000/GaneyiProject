@@ -1,0 +1,62 @@
+{
+  "applications": ["Billing"],
+  "changelogDate": "20221109181711",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "forfait",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numberOfQueries",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "periode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "actif",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Forfait",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "request",
+      "otherEntityRelationshipName": "forfait",
+      "relationshipName": "request",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "facture",
+      "otherEntityRelationshipName": "forfait",
+      "ownerSide": false,
+      "relationshipName": "facture",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "forfait",
+      "ownerSide": false,
+      "relationshipName": "client",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

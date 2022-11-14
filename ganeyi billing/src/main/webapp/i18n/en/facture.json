@@ -1,0 +1,34 @@
+{
+  "billingApp": {
+    "facture": {
+      "home": {
+        "title": "Factures",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Facture",
+        "createOrEditLabel": "Create or edit a Facture",
+        "notFound": "No Factures found"
+      },
+      "created": "A new Facture is created with identifier {{ param }}",
+      "updated": "A Facture is updated with identifier {{ param }}",
+      "deleted": "A Facture is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Facture {{ id }}?"
+      },
+      "detail": {
+        "title": "Facture"
+      },
+      "id": "ID",
+      "rabais": "Rabais",
+      "tva": "Tva",
+      "sousTotal": "Sous Total",
+      "total": "Total",
+      "typeFacturation": "Type Facturation",
+      "status": "Status",
+      "reference": "Reference",
+      "date": "Date",
+      "forfait": "Forfait",
+      "payment": "Payment",
+      "client": "Client"
+    }
+  }
+}

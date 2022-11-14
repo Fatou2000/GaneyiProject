@@ -1,0 +1,28 @@
+{
+  "applications": ["Billing"],
+  "changelogDate": "20221114133207",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "pricing",
+  "fields": [
+    {
+      "fieldName": "value",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Pricing",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "productLicense",
+      "otherEntityRelationshipName": "pricing",
+      "relationshipName": "productLicense",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

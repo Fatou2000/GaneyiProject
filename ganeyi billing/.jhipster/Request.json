@@ -1,0 +1,49 @@
+{
+  "applications": ["Billing"],
+  "changelogDate": "20221114133507",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "request",
+  "fields": [
+    {
+      "fieldName": "duration",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "requestDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Request",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "resultat",
+      "otherEntityRelationshipName": "request",
+      "ownerSide": true,
+      "relationshipName": "resultat",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "request",
+      "relationshipName": "product",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "forfait",
+      "otherEntityRelationshipName": "request",
+      "relationshipName": "forfait",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="request">
+      <h2 data-cy="requestDetailsHeading"><span jhiTranslate="billingApp.request.detail.title">Request</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ request.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.request.duration">Duration</span></dt>
+        <dd>
+          <span>{{ request.duration }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.request.status">Status</span></dt>
+        <dd>
+          <span>{{ request.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.request.requestDate">Request Date</span></dt>
+        <dd>
+          <span>{{ request.requestDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.request.resultat">Resultat</span></dt>
+        <dd>
+          <div *ngIf="request.resultat">
+            <a [routerLink]="['/resultat', request.resultat.id, 'view']">{{ request.resultat.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="billingApp.request.forfait">Forfait</span></dt>
+        <dd>
+          <div *ngIf="request.forfait">
+            <a [routerLink]="['/forfait', request.forfait.id, 'view']">{{ request.forfait.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/request', request.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+{
+  "applications": ["Billing"],
+  "changelogDate": "20221114133607",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "resultat",
+  "fields": [
+    {
+      "fieldName": "value",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Resultat",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "request",
+      "otherEntityRelationshipName": "resultat",
+      "ownerSide": false,
+      "relationshipName": "request",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

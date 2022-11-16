@@ -22,4 +22,7 @@ public interface ClientRepository extends MongoRepository<Client, String> {
 
     @Query("{'id': ?0}")
     Optional<Client> findOneWithEagerRelationships(String id);
+
+    @Query("{'firstname' : ?0}")
+    Client findByfirstname(String firstname);
 }

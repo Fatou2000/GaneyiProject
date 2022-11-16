@@ -28,8 +28,11 @@ describe('Facture Form Service', () => {
             status: expect.any(Object),
             reference: expect.any(Object),
             date: expect.any(Object),
+            numero: expect.any(Object),
             forfait: expect.any(Object),
             client: expect.any(Object),
+            manytomanies: expect.any(Object),
+            products: expect.any(Object),
           })
         );
       });
@@ -48,8 +51,11 @@ describe('Facture Form Service', () => {
             status: expect.any(Object),
             reference: expect.any(Object),
             date: expect.any(Object),
+            numero: expect.any(Object),
             forfait: expect.any(Object),
             client: expect.any(Object),
+            manytomanies: expect.any(Object),
+            products: expect.any(Object),
           })
         );
       });

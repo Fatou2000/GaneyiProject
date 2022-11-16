@@ -13,6 +13,8 @@ import { IForfait } from 'app/entities/forfait/forfait.model';
 import { ForfaitService } from 'app/entities/forfait/service/forfait.service';
 import { IClient } from 'app/entities/client/client.model';
 import { ClientService } from 'app/entities/client/service/client.service';
+import { IProduct } from 'app/entities/product/product.model';
+import { ProductService } from 'app/entities/product/service/product.service';
 
 import { FactureUpdateComponent } from './facture-update.component';
 
@@ -24,6 +26,7 @@ describe('Facture Management Update Component', () => {
   let factureService: FactureService;
   let forfaitService: ForfaitService;
   let clientService: ClientService;
+  let productService: ProductService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,6 +51,7 @@ describe('Facture Management Update Component', () => {
     factureService = TestBed.inject(FactureService);
     forfaitService = TestBed.inject(ForfaitService);
     clientService = TestBed.inject(ClientService);
+    productService = TestBed.inject(ProductService);
 
     comp = fixture.componentInstance;
   });
@@ -93,18 +97,48 @@ describe('Facture Management Update Component', () => {
       expect(comp.clientsSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call Product query and add missing value', () => {
+      const facture: IFacture = { id: 'CBA' };
+      const manytomanies: IProduct[] = [{ id: 'ba206778-db4e-4f8e-aaea-38bd0781440b' }];
+      facture.manytomanies = manytomanies;
+      const products: IProduct[] = [{ id: '11770717-c4b8-4548-8393-a07deeb41ccd' }];
+      facture.products = products;
+
+      const productCollection: IProduct[] = [{ id: '654a87a7-cd1b-42e6-a668-f0755523c128' }];
+      jest.spyOn(productService, 'query').mockReturnValue(of(new HttpResponse({ body: productCollection })));
+      const additionalProducts = [...manytomanies, ...products];
+      const expectedCollection: IProduct[] = [...additionalProducts, ...productCollection];
+      jest.spyOn(productService, 'addProductToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ facture });
+      comp.ngOnInit();
+
+      expect(productService.query).toHaveBeenCalled();
+      expect(productService.addProductToCollectionIfMissing).toHaveBeenCalledWith(
+        productCollection,
+        ...additionalProducts.map(expect.objectContaining)
+      );
+      expect(comp.productsSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const facture: IFacture = { id: 'CBA' };
       const forfait: IForfait = { id: 'd5ab0f4d-16ed-415b-a470-f320fa6ba979' };
       facture.forfait = forfait;
       const client: IClient = { id: '8afad01e-ad49-4435-957c-81a4c40c31bd' };
       facture.client = client;
+      const manytomany: IProduct = { id: '5323beb5-9287-4cdd-b5d9-1a2ddb5c79e1' };
+      facture.manytomanies = [manytomany];
+      const product: IProduct = { id: '11824deb-abab-468b-bb76-5ca7cee446c9' };
+      facture.products = [product];
 
       activatedRoute.data = of({ facture });
       comp.ngOnInit();
 
       expect(comp.forfaitsCollection).toContain(forfait);
       expect(comp.clientsSharedCollection).toContain(client);
+      expect(comp.productsSharedCollection).toContain(manytomany);
+      expect(comp.productsSharedCollection).toContain(product);
       expect(comp.facture).toEqual(facture);
     });
   });
@@ -195,6 +229,16 @@ describe('Facture Management Update Component', () => {
         jest.spyOn(clientService, 'compareClient');
         comp.compareClient(entity, entity2);
         expect(clientService.compareClient).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareProduct', () => {
+      it('Should forward to productService', () => {
+        const entity = { id: 'ABC' };
+        const entity2 = { id: 'CBA' };
+        jest.spyOn(productService, 'compareProduct');
+        comp.compareProduct(entity, entity2);
+        expect(productService.compareProduct).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

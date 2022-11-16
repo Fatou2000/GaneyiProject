@@ -10,22 +10,23 @@ export const sampleWithRequiredData: IFacture = {
 };
 
 export const sampleWithPartialData: IFacture = {
-  id: '4606d92d-72ab-48b1-8efd-78d418d6d56c',
-  sousTotal: 63361,
+  id: '606d92d7-2ab8-4b18-afd7-8d418d6d56ca',
+  sousTotal: 74642,
   status: FactureStatus['NON_PAYE'],
-  reference: 'azure Account Manor',
+  reference: 'Optimization',
 };
 
 export const sampleWithFullData: IFacture = {
-  id: '9ef80beb-0add-47f8-a88c-29eefdf5b75b',
-  rabais: 98336,
-  tva: 52576,
-  sousTotal: 33310,
-  total: 94443,
-  typeFacturation: TypeFacturation['FACTURATION_PAR_REQUETE'],
-  status: FactureStatus['PAYE'],
-  reference: 'Handmade',
+  id: '2c7709ef-80be-4b0a-9d7f-8688c29eefdf',
+  rabais: 33588,
+  tva: 71290,
+  sousTotal: 48267,
+  total: 31715,
+  typeFacturation: TypeFacturation['FACTURATION_PAR_PERIODE'],
+  status: FactureStatus['NON_PAYE'],
+  reference: 'throughput Books',
   date: dayjs('2022-11-13'),
+  numero: 'deposit Incredible architectures',
 };
 
 export const sampleWithNewData: NewFacture = {

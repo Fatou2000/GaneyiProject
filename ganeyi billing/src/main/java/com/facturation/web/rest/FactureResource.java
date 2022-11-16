@@ -138,20 +138,27 @@ public class FactureResource {
      * {@code GET  /factures} : get all the factures.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of factures in body.
      */
     @GetMapping("/factures")
     public ResponseEntity<List<Facture>> getAllFactures(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false) String filter
+        @RequestParam(required = false) String filter,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
     ) {
         if ("payment-is-null".equals(filter)) {
             log.debug("REST request to get all Factures where payment is null");
             return new ResponseEntity<>(factureService.findAllWherePaymentIsNull(), HttpStatus.OK);
         }
         log.debug("REST request to get a page of Factures");
-        Page<Facture> page = factureService.findAll(pageable);
+        Page<Facture> page;
+        if (eagerload) {
+            page = factureService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = factureService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -180,5 +187,13 @@ public class FactureResource {
         log.debug("REST request to delete Facture : {}", id);
         factureService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+    }
+
+    @GetMapping("factures/firstname/{firstname}")
+    public ResponseEntity<Facture> getbilling(@PathVariable String firstname){
+        log.debug("REST request to get Facture : {}", firstname);
+        Facture facture = factureService.findbillingbyname(firstname);
+        return getFacture(facture.getId());
+
     }
 }

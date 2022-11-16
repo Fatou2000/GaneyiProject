@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type FactureFormGroupInput = IFacture | PartialWithRequiredKeyOf<NewFacture>;
 
-type FactureFormDefaults = Pick<NewFacture, 'id'>;
+type FactureFormDefaults = Pick<NewFacture, 'id' | 'manytomanies' | 'products'>;
 
 type FactureFormGroupContent = {
   id: FormControl<IFacture['id'] | NewFacture['id']>;
@@ -26,8 +26,11 @@ type FactureFormGroupContent = {
   status: FormControl<IFacture['status']>;
   reference: FormControl<IFacture['reference']>;
   date: FormControl<IFacture['date']>;
+  numero: FormControl<IFacture['numero']>;
   forfait: FormControl<IFacture['forfait']>;
   client: FormControl<IFacture['client']>;
+  manytomanies: FormControl<IFacture['manytomanies']>;
+  products: FormControl<IFacture['products']>;
 };
 
 export type FactureFormGroup = FormGroup<FactureFormGroupContent>;
@@ -55,8 +58,11 @@ export class FactureFormService {
       status: new FormControl(factureRawValue.status),
       reference: new FormControl(factureRawValue.reference),
       date: new FormControl(factureRawValue.date),
+      numero: new FormControl(factureRawValue.numero),
       forfait: new FormControl(factureRawValue.forfait),
       client: new FormControl(factureRawValue.client),
+      manytomanies: new FormControl(factureRawValue.manytomanies ?? []),
+      products: new FormControl(factureRawValue.products ?? []),
     });
   }
 
@@ -77,6 +83,8 @@ export class FactureFormService {
   private getFormDefaults(): FactureFormDefaults {
     return {
       id: null,
+      manytomanies: [],
+      products: [],
     };
   }
 }

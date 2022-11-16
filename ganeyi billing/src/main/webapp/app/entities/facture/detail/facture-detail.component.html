@@ -46,6 +46,10 @@
         <dd>
           <span>{{ facture.date | formatMediumDate }}</span>
         </dd>
+        <dt><span jhiTranslate="billingApp.facture.numero">Numero</span></dt>
+        <dd>
+          <span>{{ facture.numero }}</span>
+        </dd>
         <dt><span jhiTranslate="billingApp.facture.forfait">Forfait</span></dt>
         <dd>
           <div *ngIf="facture.forfait">
@@ -57,6 +61,20 @@
           <div *ngIf="facture.client">
             <a [routerLink]="['/client', facture.client.id, 'view']">{{ facture.client.id }}</a>
           </div>
+        </dd>
+        <dt><span jhiTranslate="billingApp.facture.manytomany">Manytomany</span></dt>
+        <dd>
+          <span *ngFor="let manytomany of facture.manytomanies; let last = last">
+            <a [routerLink]="['/product', manytomany.id, 'view']">{{ manytomany.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="billingApp.facture.product">Product</span></dt>
+        <dd>
+          <span *ngFor="let product of facture.products; let last = last">
+            <a [routerLink]="['/product', product.id, 'view']">{{ product.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
         </dd>
       </dl>
 

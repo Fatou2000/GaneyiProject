@@ -5,6 +5,8 @@ import com.facturation.domain.enumeration.TypeFacturation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -46,6 +48,9 @@ public class Facture implements Serializable {
     @Field("date")
     private LocalDate date;
 
+    @Field("numero")
+    private String numero;
+
     @DBRef
     @Field("forfait")
     private Forfait forfait;
@@ -57,6 +62,16 @@ public class Facture implements Serializable {
     @Field("client")
     @JsonIgnoreProperties(value = { "factures", "products", "forfaits" }, allowSetters = true)
     private Client client;
+
+    @DBRef
+    @Field("manytomanies")
+    @JsonIgnoreProperties(value = { "apis", "request", "productLicense", "clients" }, allowSetters = true)
+    private Set<Product> manytomanies = new HashSet<>();
+
+    @DBRef
+    @Field("products")
+    @JsonIgnoreProperties(value = { "apis", "request", "productLicense", "clients" }, allowSetters = true)
+    private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -177,6 +192,19 @@ public class Facture implements Serializable {
         this.date = date;
     }
 
+    public String getNumero() {
+        return this.numero;
+    }
+
+    public Facture numero(String numero) {
+        this.setNumero(numero);
+        return this;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
     public Forfait getForfait() {
         return this.forfait;
     }
@@ -222,6 +250,52 @@ public class Facture implements Serializable {
         return this;
     }
 
+    public Set<Product> getManytomanies() {
+        return this.manytomanies;
+    }
+
+    public void setManytomanies(Set<Product> products) {
+        this.manytomanies = products;
+    }
+
+    public Facture manytomanies(Set<Product> products) {
+        this.setManytomanies(products);
+        return this;
+    }
+
+    public Facture addManytomany(Product product) {
+        this.manytomanies.add(product);
+        return this;
+    }
+
+    public Facture removeManytomany(Product product) {
+        this.manytomanies.remove(product);
+        return this;
+    }
+
+    public Set<Product> getProducts() {
+        return this.products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    public Facture products(Set<Product> products) {
+        this.setProducts(products);
+        return this;
+    }
+
+    public Facture addProduct(Product product) {
+        this.products.add(product);
+        return this;
+    }
+
+    public Facture removeProduct(Product product) {
+        this.products.remove(product);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -254,6 +328,7 @@ public class Facture implements Serializable {
             ", status='" + getStatus() + "'" +
             ", reference='" + getReference() + "'" +
             ", date='" + getDate() + "'" +
+            ", numero='" + getNumero() + "'" +
             "}";
     }
 }

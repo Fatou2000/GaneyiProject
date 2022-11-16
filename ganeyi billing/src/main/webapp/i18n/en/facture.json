@@ -26,9 +26,12 @@
       "status": "Status",
       "reference": "Reference",
       "date": "Date",
+      "numero": "Numero",
       "forfait": "Forfait",
       "payment": "Payment",
-      "client": "Client"
+      "client": "Client",
+      "manytomany": "Manytomany",
+      "product": "Product"
     }
   }
 }

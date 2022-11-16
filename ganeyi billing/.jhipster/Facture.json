@@ -38,6 +38,10 @@
     {
       "fieldName": "date",
       "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "numero",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,
@@ -65,6 +69,22 @@
       "otherEntityRelationshipName": "facture",
       "relationshipName": "client",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "manytomany",
+      "ownerSide": true,
+      "relationshipName": "manytomany",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "facture",
+      "ownerSide": true,
+      "relationshipName": "product",
+      "relationshipType": "many-to-many"
     }
   ],
   "searchEngine": false,

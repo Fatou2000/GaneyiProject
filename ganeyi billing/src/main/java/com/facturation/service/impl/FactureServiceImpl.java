@@ -1,7 +1,9 @@
 package com.facturation.service.impl;
 
 import com.facturation.domain.Facture;
+import com.facturation.domain.Client;
 import com.facturation.repository.FactureRepository;
+import com.facturation.repository.ClientRepository;
 import com.facturation.service.FactureService;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +24,11 @@ public class FactureServiceImpl implements FactureService {
     private final Logger log = LoggerFactory.getLogger(FactureServiceImpl.class);
 
     private final FactureRepository factureRepository;
+    private final ClientRepository clientRepository;
 
-    public FactureServiceImpl(FactureRepository factureRepository) {
+    public FactureServiceImpl(FactureRepository factureRepository,ClientRepository clientRepository) {
         this.factureRepository = factureRepository;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -70,6 +74,9 @@ public class FactureServiceImpl implements FactureService {
                 if (facture.getDate() != null) {
                     existingFacture.setDate(facture.getDate());
                 }
+                if (facture.getNumero() != null) {
+                    existingFacture.setNumero(facture.getNumero());
+                }
 
                 return existingFacture;
             })
@@ -80,6 +87,10 @@ public class FactureServiceImpl implements FactureService {
     public Page<Facture> findAll(Pageable pageable) {
         log.debug("Request to get all Factures");
         return factureRepository.findAll(pageable);
+    }
+
+    public Page<Facture> findAllWithEagerRelationships(Pageable pageable) {
+        return factureRepository.findAllWithEagerRelationships(pageable);
     }
 
     /**
@@ -98,12 +109,27 @@ public class FactureServiceImpl implements FactureService {
     @Override
     public Optional<Facture> findOne(String id) {
         log.debug("Request to get Facture : {}", id);
-        return factureRepository.findById(id);
+        return factureRepository.findOneWithEagerRelationships(id);
     }
 
     @Override
     public void delete(String id) {
         log.debug("Request to delete Facture : {}", id);
         factureRepository.deleteById(id);
+    }
+
+    @Override
+    public Facture findByClient(Client client){
+        log.debug("Request to find client's billing : {}", client);
+        return factureRepository.findByClient(client);
+
+    }
+
+    @Override
+    public Facture findbillingbyname(String firstname){
+        Client client = clientRepository.findByfirstname(firstname);
+        Facture facture = factureRepository.findByClient(client);
+        return facture;
+
     }
 }

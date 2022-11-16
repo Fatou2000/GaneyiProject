@@ -1,9 +1,0 @@
-{
-  "billingApp": {
-    "TypeFacturation": {
-      "null": "",
-      "FACTURATION_PAR_REQUETE": "FACTURATION_PAR_REQUETE",
-      "FACTURATION_PAR_PERIODE": "FACTURATION_PAR_PERIODE"
-    }
-  }
-}

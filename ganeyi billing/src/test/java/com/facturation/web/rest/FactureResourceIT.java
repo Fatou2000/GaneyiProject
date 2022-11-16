@@ -2,6 +2,7 @@ package com.facturation.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,14 +11,22 @@ import com.facturation.domain.Facture;
 import com.facturation.domain.enumeration.FactureStatus;
 import com.facturation.domain.enumeration.TypeFacturation;
 import com.facturation.repository.FactureRepository;
+import com.facturation.service.FactureService;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * Integration tests for the {@link FactureResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class FactureResourceIT {
@@ -54,11 +64,20 @@ class FactureResourceIT {
     private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
+    private static final String DEFAULT_NUMERO = "AAAAAAAAAA";
+    private static final String UPDATED_NUMERO = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/factures";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     @Autowired
     private FactureRepository factureRepository;
+
+    @Mock
+    private FactureRepository factureRepositoryMock;
+
+    @Mock
+    private FactureService factureServiceMock;
 
     @Autowired
     private MockMvc restFactureMockMvc;
@@ -80,7 +99,8 @@ class FactureResourceIT {
             .typeFacturation(DEFAULT_TYPE_FACTURATION)
             .status(DEFAULT_STATUS)
             .reference(DEFAULT_REFERENCE)
-            .date(DEFAULT_DATE);
+            .date(DEFAULT_DATE)
+            .numero(DEFAULT_NUMERO);
         return facture;
     }
 
@@ -99,7 +119,8 @@ class FactureResourceIT {
             .typeFacturation(UPDATED_TYPE_FACTURATION)
             .status(UPDATED_STATUS)
             .reference(UPDATED_REFERENCE)
-            .date(UPDATED_DATE);
+            .date(UPDATED_DATE)
+            .numero(UPDATED_NUMERO);
         return facture;
     }
 
@@ -129,6 +150,7 @@ class FactureResourceIT {
         assertThat(testFacture.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testFacture.getReference()).isEqualTo(DEFAULT_REFERENCE);
         assertThat(testFacture.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testFacture.getNumero()).isEqualTo(DEFAULT_NUMERO);
     }
 
     @Test
@@ -166,7 +188,25 @@ class FactureResourceIT {
             .andExpect(jsonPath("$.[*].typeFacturation").value(hasItem(DEFAULT_TYPE_FACTURATION.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].reference").value(hasItem(DEFAULT_REFERENCE)))
-            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())));
+            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllFacturesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(factureServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restFactureMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(factureServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllFacturesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(factureServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restFactureMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(factureRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -187,7 +227,8 @@ class FactureResourceIT {
             .andExpect(jsonPath("$.typeFacturation").value(DEFAULT_TYPE_FACTURATION.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.reference").value(DEFAULT_REFERENCE))
-            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()));
+            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
+            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO));
     }
 
     @Test
@@ -213,7 +254,8 @@ class FactureResourceIT {
             .typeFacturation(UPDATED_TYPE_FACTURATION)
             .status(UPDATED_STATUS)
             .reference(UPDATED_REFERENCE)
-            .date(UPDATED_DATE);
+            .date(UPDATED_DATE)
+            .numero(UPDATED_NUMERO);
 
         restFactureMockMvc
             .perform(
@@ -235,6 +277,7 @@ class FactureResourceIT {
         assertThat(testFacture.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testFacture.getReference()).isEqualTo(UPDATED_REFERENCE);
         assertThat(testFacture.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testFacture.getNumero()).isEqualTo(UPDATED_NUMERO);
     }
 
     @Test
@@ -329,6 +372,7 @@ class FactureResourceIT {
         assertThat(testFacture.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testFacture.getReference()).isEqualTo(UPDATED_REFERENCE);
         assertThat(testFacture.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testFacture.getNumero()).isEqualTo(DEFAULT_NUMERO);
     }
 
     @Test
@@ -350,7 +394,8 @@ class FactureResourceIT {
             .typeFacturation(UPDATED_TYPE_FACTURATION)
             .status(UPDATED_STATUS)
             .reference(UPDATED_REFERENCE)
-            .date(UPDATED_DATE);
+            .date(UPDATED_DATE)
+            .numero(UPDATED_NUMERO);
 
         restFactureMockMvc
             .perform(
@@ -372,6 +417,7 @@ class FactureResourceIT {
         assertThat(testFacture.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testFacture.getReference()).isEqualTo(UPDATED_REFERENCE);
         assertThat(testFacture.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testFacture.getNumero()).isEqualTo(UPDATED_NUMERO);
     }
 
     @Test

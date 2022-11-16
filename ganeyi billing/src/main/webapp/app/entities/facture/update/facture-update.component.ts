@@ -11,6 +11,8 @@ import { IForfait } from 'app/entities/forfait/forfait.model';
 import { ForfaitService } from 'app/entities/forfait/service/forfait.service';
 import { IClient } from 'app/entities/client/client.model';
 import { ClientService } from 'app/entities/client/service/client.service';
+import { IProduct } from 'app/entities/product/product.model';
+import { ProductService } from 'app/entities/product/service/product.service';
 import { TypeFacturation } from 'app/entities/enumerations/type-facturation.model';
 import { FactureStatus } from 'app/entities/enumerations/facture-status.model';
 
@@ -26,6 +28,7 @@ export class FactureUpdateComponent implements OnInit {
 
   forfaitsCollection: IForfait[] = [];
   clientsSharedCollection: IClient[] = [];
+  productsSharedCollection: IProduct[] = [];
 
   editForm: FactureFormGroup = this.factureFormService.createFactureFormGroup();
 
@@ -34,12 +37,15 @@ export class FactureUpdateComponent implements OnInit {
     protected factureFormService: FactureFormService,
     protected forfaitService: ForfaitService,
     protected clientService: ClientService,
+    protected productService: ProductService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareForfait = (o1: IForfait | null, o2: IForfait | null): boolean => this.forfaitService.compareForfait(o1, o2);
 
   compareClient = (o1: IClient | null, o2: IClient | null): boolean => this.clientService.compareClient(o1, o2);
+
+  compareProduct = (o1: IProduct | null, o2: IProduct | null): boolean => this.productService.compareProduct(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ facture }) => {
@@ -91,6 +97,11 @@ export class FactureUpdateComponent implements OnInit {
 
     this.forfaitsCollection = this.forfaitService.addForfaitToCollectionIfMissing<IForfait>(this.forfaitsCollection, facture.forfait);
     this.clientsSharedCollection = this.clientService.addClientToCollectionIfMissing<IClient>(this.clientsSharedCollection, facture.client);
+    this.productsSharedCollection = this.productService.addProductToCollectionIfMissing<IProduct>(
+      this.productsSharedCollection,
+      ...(facture.manytomanies ?? []),
+      ...(facture.products ?? [])
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -105,5 +116,19 @@ export class FactureUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IClient[]>) => res.body ?? []))
       .pipe(map((clients: IClient[]) => this.clientService.addClientToCollectionIfMissing<IClient>(clients, this.facture?.client)))
       .subscribe((clients: IClient[]) => (this.clientsSharedCollection = clients));
+
+    this.productService
+      .query()
+      .pipe(map((res: HttpResponse<IProduct[]>) => res.body ?? []))
+      .pipe(
+        map((products: IProduct[]) =>
+          this.productService.addProductToCollectionIfMissing<IProduct>(
+            products,
+            ...(this.facture?.manytomanies ?? []),
+            ...(this.facture?.products ?? [])
+          )
+        )
+      )
+      .subscribe((products: IProduct[]) => (this.productsSharedCollection = products));
   }
 }

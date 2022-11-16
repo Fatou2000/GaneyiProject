@@ -63,4 +63,6 @@ public interface ClientService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    Client findByfirstname(String firstname);
 }

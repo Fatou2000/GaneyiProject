@@ -1,9 +1,0 @@
-{
-  "billingApp": {
-    "FactureStatus": {
-      "null": "",
-      "PAYE": "PAYE",
-      "NON_PAYE": "NON_PAYE"
-    }
-  }
-}

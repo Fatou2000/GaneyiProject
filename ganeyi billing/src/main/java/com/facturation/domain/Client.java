@@ -38,7 +38,7 @@ public class Client implements Serializable {
 
     @DBRef
     @Field("facture")
-    @JsonIgnoreProperties(value = { "forfait", "payment", "client" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "forfait", "payment", "client", "manytomanies", "products" }, allowSetters = true)
     private Set<Facture> factures = new HashSet<>();
 
     @DBRef

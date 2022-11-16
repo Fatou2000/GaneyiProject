@@ -106,6 +106,7 @@ export class FactureComponent implements OnInit {
     const queryObject = {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
+      eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.factureService.query(queryObject).pipe(tap(() => (this.isLoading = false)));

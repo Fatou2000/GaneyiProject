@@ -1,6 +1,7 @@
 package com.facturation.service;
 
 import com.facturation.domain.Facture;
+import com.facturation.domain.Client;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -49,6 +50,14 @@ public interface FactureService {
     List<Facture> findAllWherePaymentIsNull();
 
     /**
+     * Get all the factures with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<Facture> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" facture.
      *
      * @param id the id of the entity.
@@ -62,4 +71,8 @@ public interface FactureService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    Facture findByClient(Client client);
+
+    Facture findbillingbyname(String firstname);
 }

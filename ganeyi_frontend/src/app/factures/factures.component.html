@@ -56,18 +56,22 @@ body {font-size:16px;}
         <input type="text" placeholder="Filter" style=" float: left;padding: 6px;border-radius:10px;margin-top: 8px;font-size: 17px;">
         <input type="text" placeholder="Rechercher" style=" float: right;padding: 6px; border-radius: 10px;margin-top: 8px;margin-right: 16px;font-size: 17px;">
    </div>
-    <table class="w3-table" style="color: #339682;font-size: larger;">
-        <tr>
+    <table class="w3-table" >
+        <tr style="color: #339682;font-size: larger;">
             <th>Numéro</th>
             <th>Date</th>
             <th>Produits</th>
             <th>Montant</th>
             <th>Status</th>
         </tr>
-        <tr>
-            <th>
-                
-            </th>
+        <tr class=" w3-border w3-round-large" style="font-size: medium;padding: 100px;">
+            <th>{{ factures.numero }}</th>
+            <th>{{ factures.date }}</th>
+            <th>{{ factures.forfait }}</th>
+            <th>{{ factures.total }} XOF</th>
+            <th class="w3-padding">{{ factures.status }}</th>
+            <th><button class="w3-button w3-round-xlarge w3-border w3-border-teal" style="font-size:x-small; color:#339682;">Voir</button></th>
+            <th><button class="w3-button w3-round-xlarge w3-border" style="background-color: #339682;color: white;font-size: x-small;">Télécharger</button></th>
         </tr>
 
     </table>
